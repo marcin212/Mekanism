@@ -405,7 +405,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 			return 0;
 		}
 
-		double toUse = Math.min(Math.min(getMaxEnergy()-getEnergy(), amount), getMaxOutput());
+		double toUse = Math.min(getMaxEnergy()-getEnergy(), amount);
 		setEnergy(getEnergy() + toUse);
 
 		return toUse;

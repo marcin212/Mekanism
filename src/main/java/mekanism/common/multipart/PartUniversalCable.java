@@ -86,11 +86,6 @@ public class PartUniversalCable extends PartTransmitter<EnergyAcceptorWrapper, E
 						{
 							IStrictEnergyStorage storage = CapabilityUtils.getCapability(outputter, Capabilities.ENERGY_STORAGE_CAPABILITY, side.getOpposite());
 							double received = Math.min(storage.getEnergy(), canDraw);
-
-							if(storage instanceof IEnergyWrapper){
-								received = Math.min(received, ((IEnergyWrapper) storage).getMaxOutput());
-							}
-
 							double toDraw = received;
 
 							if(received > 0)
