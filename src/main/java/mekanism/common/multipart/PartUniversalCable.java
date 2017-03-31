@@ -18,6 +18,7 @@ import mekanism.common.Tier;
 import mekanism.common.Tier.BaseTier;
 import mekanism.common.Tier.CableTier;
 import mekanism.common.base.EnergyAcceptorWrapper;
+import mekanism.common.base.IEnergyWrapper;
 import mekanism.common.capabilities.Capabilities;
 import mekanism.common.util.CableUtils;
 import mekanism.common.util.MekanismUtils;
@@ -73,7 +74,7 @@ public class PartUniversalCable extends PartTransmitter<EnergyAcceptorWrapper, E
 			if(!sides.isEmpty())
 			{
 				TileEntity[] connectedOutputters = CableUtils.getConnectedOutputters(getPos(), getWorld());
-				double canDraw = tier.cableCapacity/10F;
+				double canDraw = tier.cableCapacity;
 
 				for(EnumFacing side : sides)
 				{
@@ -85,6 +86,11 @@ public class PartUniversalCable extends PartTransmitter<EnergyAcceptorWrapper, E
 						{
 							IStrictEnergyStorage storage = CapabilityUtils.getCapability(outputter, Capabilities.ENERGY_STORAGE_CAPABILITY, side.getOpposite());
 							double received = Math.min(storage.getEnergy(), canDraw);
+
+							if(storage instanceof IEnergyWrapper){
+								received = Math.min(received, ((IEnergyWrapper) storage).getMaxOutput());
+							}
+
 							double toDraw = received;
 
 							if(received > 0)
